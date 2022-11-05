@@ -13,3 +13,7 @@
   -o-object-fit: contain;
   object-fit: contain;
 }
+
+.viewport {
+  height: 80vh;
+}

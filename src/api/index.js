@@ -15,7 +15,26 @@ export const getSetData = async (url) => {
 
 export const fetchCardData = async (url) => {
     const response = await fetch(url);
-    const { data, has_more: hasMore, next_page: nextPage, } = await response.json();
-    const cardData = data.map(({ name, prices, rarity }) => ({ name, prices, rarity }));
+    const { data, has_more: hasMore, next_page: nextPage } = await response.json();
+    const cardData = data.map(({ name, prices, rarity, type_line }) => ({ name, prices, rarity, type_line }));
     return { hasMore, cardData, nextPage }
+}
+
+export const getSetList = async () => {
+    const response = await fetch('https://api.scryfall.com/sets');
+    const { data } = await response.json();
+    let mastersList = ['dmr', '2x2', 'tsr', '2xm', 'uma', 'a25', 'ima', 'mm3', 'ema', 'mm2', 'mma'];
+    let falseSets = ['tscd', 'j21', 'h1r', 'tsb', '4bb', 'sum', 'fbb'];
+    let boosterSets = data.map(({ code, name, set_type, released_at }) => {
+        if (set_type === 'core' || set_type === 'expansion' || set_type === 'draft_innovation') {
+            if (!falseSets.includes(code)) {
+                return { code, name, set_type, release_date: released_at }
+            }
+        } else if (set_type === 'masters' && mastersList.includes(code)) {
+            return { code, name, set_type, release_date: released_at }
+        }
+    })
+    boosterSets = boosterSets.filter(set => set !== undefined);
+    console.log(boosterSets)
+    return boosterSets
 }
