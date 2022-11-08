@@ -3,11 +3,6 @@ import { getSetData } from "../../api";
 export const packEV = async (set) => {
     const url = `https://api.scryfall.com/cards/search?q=s%3A${set}+is%3Abooster`;
     const setData = await getSetData(url);
-    const setLen = setData.length;
-    const cardsInPack = (set) => {
-
-    }
-
     let comInPack = 10;
     let uncomInPack = 3;
     let rareInPack = .8649

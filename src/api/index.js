@@ -35,6 +35,5 @@ export const getSetList = async () => {
         }
     })
     boosterSets = boosterSets.filter(set => set !== undefined);
-    console.log(boosterSets)
     return boosterSets
 }
