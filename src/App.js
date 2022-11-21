@@ -1,26 +1,41 @@
 import './App.css';
-import { Container, Row, Col } from 'react-bootstrap';
-import { packEV } from './components/calculator';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navigation from './components/navbar';
+import SetList from './components/setList';
+import Home from './components/Home';
+import Set from './components/set';
+import { useState } from 'react';
 
 function App() {
-  // const warOfTheSpark = getSetData(`https://api.scryfall.com/cards/search?q=s%3Awar+is%3Abooster`);
-  // console.log(warOfTheSpark);
-  console.log(packEV('war'));
+  const [mode, setMode] = useState('light');
 
-
+  const toggleMode = () => {
+    mode === 'light' ? setMode('dark') : setMode('light');
+  }
 
   return (
     <>
-      <Navigation />
-      <Container className='' fluid>
-        <Row className='my-3'>
-          <h1 className='text-center'>Poopy</h1>
-        </Row>
-        <Row>
-          <p></p>
-        </Row>
-      </Container>
+      <div className={mode === 'light' ? 'light' : 'dark'}>
+        <BrowserRouter>
+          <Navigation toggleMode={toggleMode} m-0 p-0 />
+          <div className='px-5'>
+            <Routes>
+              <Route
+                path='/'
+                element={<Home />}
+              />
+              <Route
+                path='/setList'
+                element={<SetList />}
+              />
+              <Route
+                path='/set/:setCode'
+                element={<Set />}>
+              </Route>
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </div>
     </>
   );
 }
