@@ -16,7 +16,7 @@ export const getSetData = async (url) => {
 export const fetchCardData = async (url) => {
     const response = await fetch(url);
     const { data, has_more: hasMore, next_page: nextPage } = await response.json();
-    const cardData = data.map(({ name, prices, rarity, type_line }) => ({ name, prices, rarity, type_line }));
+    const cardData = data.map(({ name, prices, rarity, type_line, image_uris, card_faces }) => ({ name, prices, rarity, type_line, image_uris, card_faces }));
     return { hasMore, cardData, nextPage }
 }
 
@@ -36,4 +36,10 @@ export const getSetList = async () => {
     })
     boosterSets = boosterSets.filter(set => set !== undefined);
     return boosterSets
+}
+
+export const getSetInfo = async (setCode) => {
+    const response = await fetch(`https://api.scryfall.com/sets/${setCode}`);
+    const setInfo = await response.json();
+    return setInfo
 }

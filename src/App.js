@@ -1,32 +1,41 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { packEV } from './components/calculator';
 import Navigation from './components/navbar';
-import Sets from './components/sets';
+import SetList from './components/setList';
 import Home from './components/Home';
-import { getSetList } from './api';
+import Set from './components/set';
+import { useState } from 'react';
 
 function App() {
-  const packData = packEV('war');
-  // console.log(packData);
-  getSetList();
+  const [mode, setMode] = useState('light');
 
+  const toggleMode = () => {
+    mode === 'light' ? setMode('dark') : setMode('light');
+  }
 
   return (
     <>
-      <BrowserRouter>
-        <Navigation />
-        <Routes>
-          <Route
-            path='/'
-            element={<Home />}
-          />
-          <Route
-            path='sets'
-            element={<Sets />}
-          />
-        </Routes>
-      </BrowserRouter>
+      <div className={mode === 'light' ? 'light' : 'dark'}>
+        <BrowserRouter>
+          <Navigation toggleMode={toggleMode} m-0 p-0 />
+          <div className='px-5'>
+            <Routes>
+              <Route
+                path='/'
+                element={<Home />}
+              />
+              <Route
+                path='/setList'
+                element={<SetList />}
+              />
+              <Route
+                path='/set/:setCode'
+                element={<Set />}>
+              </Route>
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </div>
     </>
   );
 }

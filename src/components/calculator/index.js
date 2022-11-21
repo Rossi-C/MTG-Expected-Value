@@ -1,6 +1,6 @@
 import { getSetData } from "../../api";
 
-export const packEV = async (set) => {
+export const setEV = async (set) => {
     const url = `https://api.scryfall.com/cards/search?q=s%3A${set}+is%3Abooster`;
     const setData = await getSetData(url);
     let comInPack = 10;
@@ -32,24 +32,33 @@ export const packEV = async (set) => {
     let probOfRare = rareInPack / rares;
     let probOfMythic = (1 - rareInPack) / mythics;
     let probOfLand = 1 / basicLands
+    let probOfOther = 0;
 
-    //make seperate "valuelist" that excludes cards with price < $2
-    const valueCards = setData.filter(card => parseFloat(card.prices.usd) >= 0);
-
-    let newSetData = valueCards.map(({ name, prices, rarity, type_line }) => {
+    //creating new array of objects with probability number included
+    let newSetData = setData.map(({ name, prices, rarity, type_line, image_uris, card_faces }) => {
+        const commonReturn = {
+            name,
+            price: prices.usd,
+            rarity,
+            type: type_line,
+            images: image_uris ? image_uris : card_faces[0].image_uris
+        };
         if (type_line.toLowerCase().includes('basic') || type_line.toLowerCase().includes('gate')) {
-            return { name, price: prices.usd, rarity, probability: probOfLand, type: type_line }
+            return { ...commonReturn, probability: probOfLand }
         } else if (rarity === 'common') {
-            return { name, price: prices.usd, rarity, probability: probOfComm, type: type_line }
+            return { ...commonReturn, probability: probOfComm }
         } else if (rarity === 'uncommon') {
-            return { name, price: prices.usd, rarity, probability: probOfUncomm, type: type_line }
+            return { ...commonReturn, probability: probOfUncomm }
         } else if (rarity === 'rare') {
-            return { name, price: prices.usd, rarity, probability: probOfRare, type: type_line }
+            return { ...commonReturn, probability: probOfRare }
+        } else if (rarity === 'mythic') {
+            return { ...commonReturn, probability: probOfMythic }
         } else {
-            return { name, price: prices.usd, rarity, probability: probOfMythic, type: type_line }
+            return { ...commonReturn, probability: probOfOther }
         }
     })
 
+    //calcing pack value including all cards in set
     let packValue = 0;
     let cardValue = 0;
     for (let card of newSetData) {
@@ -57,11 +66,39 @@ export const packEV = async (set) => {
         packValue += cardValue;
     }
 
+    //numPacks will be variable based upon the set later
+    let numPacks = 36;
+    const boxValue = packValue * numPacks;
+
+    //make seperate "valuelist" that excludes cards with price < $2
+    const valueSetData = newSetData.filter(card => parseFloat(card.price) >= 2);
+
+    //calcing pack value excluding cards < $2
+    let filteredPackValue = 0;
+    let filteredCardValue = 0;
+    for (let card of valueSetData) {
+        filteredCardValue = card.price * card.probability;
+        filteredPackValue += filteredCardValue;
+    }
+
+    const filteredBoxValue = filteredPackValue * numPacks;
+
+    const setEVData = {
+        packValue: packValue.toFixed(2),
+        boxValue: boxValue.toFixed(2),
+        filteredPackValue: filteredPackValue.toFixed(2),
+        filteredBoxValue: filteredBoxValue.toFixed(2),
+        totalSetData: newSetData,
+        valueSetData: valueSetData,
+    };
+
+
+
     //if set is before shards of alara (no mythics yet) then
     //  nested - if (set === LEA(alpha) or LEB(beta) or 2ED(unlimited)) find probabilities for cards > $2
     //      note - alpha(p(rare-land)=.0413 p(uncom-land)=.215 p(comm-land)=38.84)
     //  nested - else (find probabilities for cards > $2) 
     //else if set is before battle for zendi then find probs for cards > $2 note - %12.5 for pack to have myth insted of rare
     //else find probs for cards > $2 note - %13.51 for pack to have myth insted of rare
-    return packValue
+    return setEVData
 }
