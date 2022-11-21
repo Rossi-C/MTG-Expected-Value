@@ -17,7 +17,7 @@ function SetList() {
 
 
     return (
-        <Container className='' fluid>
+        <Container className='pb-5' fluid>
             <Row className='p-5'>
                 <h1>Set List<hr className='title-hr'></hr></h1>
             </Row>

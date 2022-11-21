@@ -89,7 +89,6 @@ export const setEV = async (set) => {
         filteredPackValue: filteredPackValue.toFixed(2),
         filteredBoxValue: filteredBoxValue.toFixed(2),
         totalSetData: newSetData,
-        valueSetData: valueSetData,
     };
 
 
