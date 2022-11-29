@@ -15,3 +15,12 @@
   min-height: 100vh;
   min-width: 100vh;
 }
+
+.disclaimer {
+  font-size: small;
+}
+
+.statement {
+  padding: 0;
+  margin: .5rem;
+}

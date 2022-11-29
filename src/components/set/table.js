@@ -24,7 +24,7 @@ function DataTable({ totalSetData }) {
                     return '';
                 }
 
-                const valueFormatted = Number(params.value).toLocaleString();
+                const valueFormatted = Number(params.value).toFixed(2).toLocaleString();
                 return `$ ${valueFormatted}`;
             }
         },
@@ -39,7 +39,7 @@ function DataTable({ totalSetData }) {
                     return '';
                 }
 
-                const valueFormatted = Number(params.value).toLocaleString();
+                const valueFormatted = Number(params.value).toFixed(2).toLocaleString();
                 return `${valueFormatted} %`;
             }
         },
@@ -61,8 +61,6 @@ function DataTable({ totalSetData }) {
     ];
 
     const filteredData = totalSetData.filter(card => card.images === undefined)
-
-    console.log(totalSetData);
 
     const generateRows = () => {
         let rows = [];
