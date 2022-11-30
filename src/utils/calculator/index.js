@@ -1,16 +1,22 @@
-import { getSetData } from "../../api";
+import { getSetData, getSetInfo } from "../../api";
+import { packRarity } from "./packRarirty";
+import { packsInBox } from "./packsInBox";
 
 export const setEV = async (set) => {
     const url = `https://api.scryfall.com/cards/search?q=s%3A${set}+is%3Abooster`;
     const setData = await getSetData(url);
-    let comInPack = 10;
-    let uncomInPack = 3;
-    let rareInPack = .8649
+    const setInfo = await getSetInfo(set);
+    const setReleaseDate = new Date(setInfo.released_at);
+    const setType = setInfo.set_type;
+
+    const { comInPack, uncomInPack, rareInPack, mythInPack, basicLandInPack, specialInPack } = packRarity(set, setReleaseDate, setType);
+
     //find num of commons, uncommons, rares, mythics in set
     let commons = 0;
     let uncommons = 0;
     let rares = 0;
     let mythics = 0;
+    let specials = 0;
     let basicLands = 0;
     for (let card of setData) {
         if (card.type_line.toLowerCase().includes('basic') || card.type_line.toLowerCase().includes('gate')) {
@@ -23,16 +29,16 @@ export const setEV = async (set) => {
             rares++;
         } else if (card.rarity === 'mythic') {
             mythics++;
-        }
+        } else specials++;
     }
-    commons -= basicLands
-    //booster pack - 1 land, 10 commons, 3 uncommons, 1 rare or mythic
+    commons -= basicLands;
+
     let probOfComm = comInPack / commons;
     let probOfUncomm = uncomInPack / uncommons;
     let probOfRare = rareInPack / rares;
-    let probOfMythic = (1 - rareInPack) / mythics;
-    let probOfLand = 1 / basicLands
-    let probOfOther = 0;
+    let probOfMythic = mythInPack / mythics;
+    let probOfBasicLand = basicLandInPack / basicLands;
+    let probOfSpecial = specialInPack / specials;
 
     //creating new array of objects with probability number included
     let newSetData = setData.map(({ name, prices, rarity, type_line, image_uris, card_faces }) => {
@@ -44,7 +50,7 @@ export const setEV = async (set) => {
             images: image_uris ? image_uris : card_faces[0].image_uris
         };
         if (type_line.toLowerCase().includes('basic') || type_line.toLowerCase().includes('gate')) {
-            return { ...commonReturn, probability: probOfLand }
+            return { ...commonReturn, probability: probOfBasicLand }
         } else if (rarity === 'common') {
             return { ...commonReturn, probability: probOfComm }
         } else if (rarity === 'uncommon') {
@@ -54,7 +60,7 @@ export const setEV = async (set) => {
         } else if (rarity === 'mythic') {
             return { ...commonReturn, probability: probOfMythic }
         } else {
-            return { ...commonReturn, probability: probOfOther }
+            return { ...commonReturn, probability: probOfSpecial }
         }
     })
 
@@ -62,12 +68,14 @@ export const setEV = async (set) => {
     let packValue = 0;
     let cardValue = 0;
     for (let card of newSetData) {
-        cardValue = card.price * card.probability;
+        cardValue = (card.price * card.probability);
         packValue += cardValue;
     }
 
+    console.log(packValue);
+
     //numPacks will be variable based upon the set later
-    let numPacks = 36;
+    const numPacks = packsInBox(set, setType);
     const boxValue = packValue * numPacks;
 
     //make seperate "valuelist" that excludes cards with price < $2
@@ -77,7 +85,7 @@ export const setEV = async (set) => {
     let filteredPackValue = 0;
     let filteredCardValue = 0;
     for (let card of valueSetData) {
-        filteredCardValue = card.price * card.probability;
+        filteredCardValue = (card.price * card.probability);
         filteredPackValue += filteredCardValue;
     }
 
@@ -89,16 +97,7 @@ export const setEV = async (set) => {
         filteredPackValue: filteredPackValue.toFixed(2),
         filteredBoxValue: filteredBoxValue.toFixed(2),
         totalSetData: newSetData,
-        valueSetData: valueSetData,
     };
 
-
-
-    //if set is before shards of alara (no mythics yet) then
-    //  nested - if (set === LEA(alpha) or LEB(beta) or 2ED(unlimited)) find probabilities for cards > $2
-    //      note - alpha(p(rare-land)=.0413 p(uncom-land)=.215 p(comm-land)=38.84)
-    //  nested - else (find probabilities for cards > $2) 
-    //else if set is before battle for zendi then find probs for cards > $2 note - %12.5 for pack to have myth insted of rare
-    //else find probs for cards > $2 note - %13.51 for pack to have myth insted of rare
     return setEVData
 }

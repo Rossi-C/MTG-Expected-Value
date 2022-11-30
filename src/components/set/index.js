@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
-import { setEV } from '../calculator';
+import { setEV } from '../../utils/calculator';
 import { getSetInfo } from '../../api';
 import DataTable from "./table";
 
@@ -12,25 +12,21 @@ function Set() {
     const [filteredPackValue, setFilteredPackValue] = useState(null);
     const [filteredBoxValue, setFilteredBoxValue] = useState(null);
     const [totalSetData, setTotalSetData] = useState(null);
-    const [valueSetData, setValueSetData] = useState(null);
     const [setName, setSetName] = useState(null);
-    const [cardCount, setCardCount] = useState(null);
 
 
     const getSetData = async () => {
-        const { packValue, boxValue, filteredPackValue, filteredBoxValue, totalSetData, valueSetData } = await setEV(setCode);
-        if (packValue || boxValue || filteredPackValue || filteredBoxValue || totalSetData || valueSetData) {
+        const { packValue, boxValue, filteredPackValue, filteredBoxValue, totalSetData } = await setEV(setCode);
+        if (packValue || boxValue || filteredPackValue || filteredBoxValue || totalSetData) {
             setPackValue(packValue);
             setBoxValue(boxValue);
             setFilteredPackValue(filteredPackValue);
             setFilteredBoxValue(filteredBoxValue);
             setTotalSetData(totalSetData);
-            setValueSetData(valueSetData);
         }
-        let { name, card_count } = await getSetInfo(setCode);
-        if (name || card_count) {
+        let { name } = await getSetInfo(setCode);
+        if (name) {
             setSetName(name);
-            setCardCount(card_count);
         }
     }
 

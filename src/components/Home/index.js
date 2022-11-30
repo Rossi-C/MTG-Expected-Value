@@ -7,7 +7,7 @@ function Home() {
             <Row className='align-items-center viewport text-center'>
                 <Col>
                     <h1>MTG-EV</h1>
-                    <h2>Check the value of your favorite sets!</h2>
+                    <h2>Check the value of your favorite Magic: The Gathering sets!</h2>
                 </Col>
             </Row>
         </Container>
