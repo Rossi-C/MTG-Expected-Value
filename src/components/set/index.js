@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Container, Row, Table } from 'react-bootstrap';
+import { Container, Row, Table, Col, Accordion } from 'react-bootstrap';
 import { setEV } from '../../utils/calculator';
 import { getSetInfo } from '../../api';
 import DataTable from "./table";
+import CalcAccordion from "./accordion";
 
 function Set() {
     let { setCode } = useParams();
@@ -58,7 +59,7 @@ function Set() {
                             </tr>
                         </tbody>
                     </Table>
-                    <Table striped bordered hover variant="dark">
+                    <Table striped bordered hover variant="dark" className="">
                         <thead>
                             <tr>
                                 <th colSpan={4} className='text-center'>Expected Values Exluding All Cards With Value Less Than $2</th>
@@ -73,11 +74,16 @@ function Set() {
                             </tr>
                         </tbody>
                     </Table>
+
                     <Row className="py-5">
                         <h2 className="text-center">Card List</h2>
                     </Row>
                     <Row className='px-2 pb-5' style={{ color: 'white' }}>
                         <DataTable totalSetData={totalSetData} />
+                    </Row>
+
+                    <Row className="pb-3">
+                        <CalcAccordion />
                     </Row>
                 </Container>
                 :
