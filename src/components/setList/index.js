@@ -6,15 +6,28 @@ import { Link } from 'react-router-dom';
 
 function SetList() {
     const [allSets, setAllSets] = useState(null);
+    const [errors, setErrors] = useState(false);
 
     const getAllSets = async () => {
-        setAllSets(await getSetList())
+        try {
+            setAllSets(await getSetList())
+        } catch (err) {
+            setErrors(true);
+        }
+
     }
 
     useEffect(() => {
         getAllSets();
     }, [])
 
+    if (errors === true) {
+        return (
+            <div>
+                <h1 className="text-center my-5">Could not retrieve the card data. Try again later!</h1>
+            </div>
+        )
+    }
 
     return (
         <Container className='pb-5' fluid>
