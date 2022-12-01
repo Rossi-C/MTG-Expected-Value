@@ -1,16 +1,30 @@
-import { DataGrid, gridNumberComparator } from '@mui/x-data-grid'
+import { DataGrid, gridNumberComparator, gridStringOrNumberComparator } from '@mui/x-data-grid'
 import { Box, Link } from '@mui/material';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import './index.css';
 
 function DataTable({ totalSetData }) {
+    const cardNameComparator = (v1, v2) => (v1.name.toLowerCase()).localeCompare((v2.name.toLowerCase()));
+
     const columns = [
         {
             field: 'cardName',
             headerName: 'Card Name',
+            sortComparator: cardNameComparator,
             width: 400,
             renderCell: (params) => (
-                <Link href={params.value.images.normal} target='_blank' color='inherit'>{params.value.name}</Link>
-            )
+                <OverlayTrigger
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <img className='popUpImg' src={params.value.images.normal} />
+                        </Tooltip>
+                    }
+                >
+                    <Link href={params.value.images.normal} target='_blank' color='inherit'>{params.value.name}</Link>
+                </OverlayTrigger>
+            ),
         },
         { field: 'rarity', headerName: 'Rarity', headerAlign: 'right', align: 'right', width: 200 },
         {
