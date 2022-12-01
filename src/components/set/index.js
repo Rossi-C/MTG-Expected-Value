@@ -14,28 +14,39 @@ function Set() {
     const [filteredBoxValue, setFilteredBoxValue] = useState(null);
     const [totalSetData, setTotalSetData] = useState(null);
     const [setName, setSetName] = useState(null);
+    const [errors, setErrors] = useState(false);
 
 
     const getSetData = async () => {
-        const { packValue, boxValue, filteredPackValue, filteredBoxValue, totalSetData } = await setEV(setCode);
-        if (packValue || boxValue || filteredPackValue || filteredBoxValue || totalSetData) {
-            setPackValue(packValue);
-            setBoxValue(boxValue);
-            setFilteredPackValue(filteredPackValue);
-            setFilteredBoxValue(filteredBoxValue);
-            setTotalSetData(totalSetData);
-        }
-        let { name } = await getSetInfo(setCode);
-        if (name) {
-            setSetName(name);
-        }
-    }
+        try {
+            const { packValue, boxValue, filteredPackValue, filteredBoxValue, totalSetData } = await setEV(setCode);
+            if (packValue || boxValue || filteredPackValue || filteredBoxValue || totalSetData) {
+                setPackValue(packValue);
+                setBoxValue(boxValue);
+                setFilteredPackValue(filteredPackValue);
+                setFilteredBoxValue(filteredBoxValue);
+                setTotalSetData(totalSetData);
+            }
+            let { name } = await getSetInfo(setCode);
+            if (name) {
+                setSetName(name);
+            }
+        } catch (err) {
+            setErrors(true);
+        };
+    };
 
     useEffect(() => {
         getSetData();
     }, [])
 
-
+    if (errors === true) {
+        return (
+            <div>
+                <h1 className="text-center my-5">Could not retrieve the card data. Try again later!</h1>
+            </div>
+        )
+    }
 
     return (
         <>
