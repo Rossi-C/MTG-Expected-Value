@@ -1,4 +1,4 @@
-import { DataGrid, gridNumberComparator, gridStringOrNumberComparator } from '@mui/x-data-grid'
+import { DataGrid, gridNumberComparator } from '@mui/x-data-grid'
 import { Box, Link } from '@mui/material';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -18,7 +18,7 @@ function DataTable({ totalSetData }) {
                     placement='top'
                     overlay={
                         <Tooltip>
-                            <img className='popUpImg' src={params.value.images.normal} />
+                            <img alt='cardImage' className='popUpImg' src={params.value.images.normal} />
                         </Tooltip>
                     }
                 >
@@ -73,8 +73,6 @@ function DataTable({ totalSetData }) {
             }
         },
     ];
-
-    const filteredData = totalSetData.filter(card => card.images === undefined)
 
     const generateRows = () => {
         let rows = [];

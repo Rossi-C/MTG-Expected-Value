@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Container, Row, Table, Col, Accordion } from 'react-bootstrap';
+import { Container, Row, Table } from 'react-bootstrap';
 import { setEV } from '../../utils/calculator';
 import { getSetInfo } from '../../api';
 import DataTable from "./table";

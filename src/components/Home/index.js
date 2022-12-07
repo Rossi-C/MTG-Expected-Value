@@ -4,8 +4,8 @@ import './index.css';
 function Home() {
     return (
         <Container className='' fluid>
-            <Row className='align-items-center viewport text-center'>
-                <Col>
+            <Row className=' viewport align-items-center justify-content-center text-center' fluid lg>
+                <Col className='' fluid md={10}>
                     <h1>MTG-EV</h1>
                     <h2>Check the value of your favorite Magic: The Gathering sets!</h2>
                 </Col>
