@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 function Navigation({ toggleMode }) {
 
     return (
-        <Navbar sticky='top' bg="dark" variant='dark' expand="lg">
+        <Navbar sticky='top' collapseOnSelect bg="dark" variant='dark' expand="md" fluid>
             <Container>
                 <LinkContainer to='/'>
                     <Navbar.Brand>Magic: The Gathering - EV</Navbar.Brand>

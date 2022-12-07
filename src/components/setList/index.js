@@ -34,37 +34,37 @@ function SetType({ allSets }) {
         if (set_type === 'expansion') {
             return <Link to={`/set/${code}`} className='my-2' key={index}>{name}</Link>
         }
-    })
+    });
 
     let coreSets = allSets.map(({ name, set_type, code }, index) => {
         if (set_type === 'core') {
             return <Link to={`/set/${code}`} className='my-2' key={index}>{name}</Link>
         }
-    })
+    });
 
     let otherSets = allSets.map(({ name, set_type, code }, index) => {
         if (set_type !== 'expansion' && set_type !== 'core') {
             return <Link to={`/set/${code}`} className='my-2' key={index}>{name}</Link>
         }
-    })
+    });
 
     return (
         <Row className='px-5'>
-            <Col>
-                <h2 className='my-4 type'>Expansion Sets</h2>
+            <Col lg={4}>
+                <h2 className='my-4'>Expansion Sets</h2>
                 <hr className='type-hr'></hr>
                 <Row>
                     {expansionSets}
                 </Row>
             </Col>
-            <Col>
+            <Col lg={4}>
                 <h2 className='my-4'>Core Sets</h2>
                 <hr className='type-hr'></hr>
                 <Row>
                     {coreSets}
                 </Row>
             </Col>
-            <Col>
+            <Col lg={4}>
                 <h2 className='my-4'>Masters and Special Sets</h2>
                 <hr className='type-hr'></hr>
                 <Row>
