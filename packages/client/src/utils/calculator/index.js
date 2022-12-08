@@ -72,8 +72,6 @@ export const setEV = async (set) => {
         packValue += cardValue;
     }
 
-    console.log(packValue);
-
     //numPacks will be variable based upon the set later
     const numPacks = packsInBox(set, setType);
     const boxValue = packValue * numPacks;
