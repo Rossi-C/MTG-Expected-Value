@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Container, Row, Table } from 'react-bootstrap';
+import { Container, Row, Table, Spinner } from 'react-bootstrap';
 import { setEV } from '../../utils/calculator';
 import { getSetInfo } from '../../api';
 import DataTable from "./table";
 import CalcAccordion from "./accordion";
 
-function Set() {
+function Set({ mode }) {
     let { setCode } = useParams();
     const [packValue, setPackValue] = useState(null);
     const [boxValue, setBoxValue] = useState(null);
@@ -98,9 +98,11 @@ function Set() {
                     </Row>
                 </Container>
                 :
-                <div>
-                    <h1 className="text-center">Data Not Yet Available!</h1>
-                </div>
+                <Row className={"h-50 p-5 viewport"}>
+                    <Spinner className="m-auto" animation="border" role="status" variant={mode === 'light' ? 'dark' : 'light'}>
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </Row>
             }
         </>
     )

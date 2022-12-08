@@ -11,6 +11,9 @@ function CalcAccordion() {
                         <Col className="p-0">
                             <Container>
                                 <Row className="accordText">
+                                    Card prices are updated daily.
+                                </Row>
+                                <Row className="accordText">
                                     Older sets such as Alpha and Arabian Nights may be missing pricing data for certain cards that will affect the set's value.
                                 </Row>
                                 <Row className="accordText">

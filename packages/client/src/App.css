@@ -3,8 +3,8 @@
   color: black;
   height: 100%;
   width: 100%;
-  min-height: 100vh;
-  min-width: 100vh;
+  min-height: 30vh;
+  min-width: 30vh;
 }
 
 .dark {
@@ -12,8 +12,8 @@
   color: white;
   height: 100%;
   width: 100%;
-  min-height: 100vh;
-  min-width: 100vh;
+  min-height: 30vh;
+  min-width: 30vh;
 }
 
 .disclaimer {

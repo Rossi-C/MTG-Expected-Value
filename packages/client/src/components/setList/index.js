@@ -1,10 +1,10 @@
 import './index.css';
 import { getSetList } from '../../api/index';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function SetList() {
+function SetList({ mode }) {
     const [allSets, setAllSets] = useState(null);
     const [errors, setErrors] = useState(false);
 
@@ -37,7 +37,12 @@ function SetList() {
             {allSets ?
                 <SetType allSets={allSets} />
                 :
-                <h2 className='align-items-center text-center'>Retrieving Set List...</h2>}
+                <Row className={"h-50 p-5 viewport"}>
+                    <Spinner className="m-auto" animation="border" role="status" variant={mode === 'light' ? 'dark' : 'light'}>
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </Row>
+            }
         </Container>
     )
 };

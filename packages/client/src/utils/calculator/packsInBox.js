@@ -12,6 +12,6 @@ export const packsInBox = (set, setType) => {
     } else {
         numPacks = 36;
     };
-    console.log(numPacks);
+
     return numPacks
 }
