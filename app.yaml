@@ -13,5 +13,5 @@
 
 # [START app_yaml]
 runtime: nodejs16
-default_expiration: "10s"
+default_expiration: "10m"
 # [END app_yaml]

@@ -24,7 +24,7 @@ function SetList({ mode }) {
     if (errors === true) {
         return (
             <div>
-                <h1 className="text-center my-5">Could not retrieve the card data. Try again later!</h1>
+                <h1 className="text-center my-5 viewport">Could not retrieve the card data. Try again later!</h1>
             </div>
         )
     }
