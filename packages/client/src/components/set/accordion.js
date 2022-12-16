@@ -1,11 +1,11 @@
-import { Row, Col, Container, Accordion } from "react-bootstrap";
+import {Row, Col, Container, Accordion} from "react-bootstrap";
 
 function CalcAccordion() {
 
     return (
         <Accordion defaultActiveKey="0" className="my-3">
             <Accordion.Item eventKey="0">
-                <Accordion.Header>Calculation Information</Accordion.Header>
+                <Accordion.Header>Calculation Information*</Accordion.Header>
                 <Accordion.Body className="py-2">
                     <Row>
                         <Col className="p-0">
@@ -14,13 +14,17 @@ function CalcAccordion() {
                                     Card prices are updated daily.
                                 </Row>
                                 <Row className="accordText">
-                                    Older sets such as Alpha and Arabian Nights may be missing pricing data for certain cards that will affect the set's value.
+                                    Older sets such as Alpha and Arabian Nights may be missing pricing data for certain
+                                    cards that will affect the set's value.
                                 </Row>
                                 <Row className="accordText">
                                     Foils and variants are not included for value calculations.
                                 </Row>
                                 <Row className="accordText">
                                     Time Spiral Remastered includes Timeshifted cards.
+                                </Row>
+                                <Row className="accordText">
+                                    Low = Only cards worth >= $2 are used for calculations
                                 </Row>
                             </Container>
                         </Col>
@@ -30,13 +34,18 @@ function CalcAccordion() {
                                     Booster boxes are assumed to have 36 packs in them with the exception of:
                                 </Row>
                                 <Row className="subText">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;- Masters set boxes, excluding Time Spiral Remastered, have 24 packs per box.
+                                    &nbsp;&nbsp;&nbsp;&nbsp;- Masters set boxes, excluding Time Spiral Remastered, have
+                                    24 packs per box.
                                 </Row>
                                 <Row className="subText">
                                     &nbsp;&nbsp;&nbsp;&nbsp;- Chronicles and Alliances boxes have 45 packs per box.
                                 </Row>
                                 <Row className="subText">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;- Arabian Nights, Antiquities, The Dark, Fallen Empires, and Homelands boxes have 60 packs per box.
+                                    &nbsp;&nbsp;&nbsp;&nbsp;- Arabian Nights, Antiquities, The Dark, Fallen Empires, and
+                                    Homelands boxes have 60 packs per box.
+                                </Row>
+                                <Row className="accordText">
+                                    High = All cards in the set used for calculations
                                 </Row>
                             </Container>
                         </Col>
