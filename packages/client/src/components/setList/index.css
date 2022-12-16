@@ -9,3 +9,9 @@
 .viewport {
     min-height: 80vh;
 }
+
+.icon {
+    filter: invert(0.5) sepia(1) saturate(3) hue-rotate(0deg);
+    max-width: 25px;
+    max-height: 25px;
+}

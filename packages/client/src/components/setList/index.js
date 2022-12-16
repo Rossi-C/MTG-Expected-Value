@@ -32,7 +32,7 @@ function SetList({ mode }) {
     return (
         <Container className='pb-5' fluid>
             <Row className='p-5'>
-                <h1>Set List<hr className='title-hr'></hr></h1>
+                <h1>Set List<hr className='title-hr'/></h1>
             </Row>
             {allSets ?
                 <SetType allSets={allSets} />
@@ -48,18 +48,21 @@ function SetList({ mode }) {
 };
 
 function SetType({ allSets }) {
-    let expansionSets = allSets.map(({ name, set_type, code }, index) => {
+    // eslint-disable-next-line
+    let expansionSets = allSets.map(({ name, set_type, code, icon_svg_uri  }, index) => {
         if (set_type === 'expansion') {
-            return <Link to={`/set/${code}`} className='my-2' key={index}>{name}</Link>
+            return <Link to={`/set/${code}`} className='my-2' key={index}>
+                <img src={`${icon_svg_uri}`} className={'icon'}/> {name}
+            </Link>
         }
     });
-
+   // eslint-disable-next-line
     let coreSets = allSets.map(({ name, set_type, code }, index) => {
         if (set_type === 'core') {
             return <Link to={`/set/${code}`} className='my-2' key={index}>{name}</Link>
         }
     });
-
+    // eslint-disable-next-line
     let otherSets = allSets.map(({ name, set_type, code }, index) => {
         if (set_type !== 'expansion' && set_type !== 'core') {
             return <Link to={`/set/${code}`} className='my-2' key={index}>{name}</Link>
@@ -70,21 +73,21 @@ function SetType({ allSets }) {
         <Row className='px-5'>
             <Col lg={4}>
                 <h2 className='my-4'>Expansion Sets</h2>
-                <hr className='type-hr'></hr>
+                <hr className='type-hr'/>
                 <Row>
                     {expansionSets}
                 </Row>
             </Col>
             <Col lg={4}>
                 <h2 className='my-4'>Core Sets</h2>
-                <hr className='type-hr'></hr>
+                <hr className='type-hr'/>
                 <Row>
                     {coreSets}
                 </Row>
             </Col>
             <Col lg={4}>
                 <h2 className='my-4'>Masters and Special Sets</h2>
-                <hr className='type-hr'></hr>
+                <hr className='type-hr'/>
                 <Row>
                     {otherSets}
                 </Row>
